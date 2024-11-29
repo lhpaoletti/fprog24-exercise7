@@ -10,21 +10,21 @@ data MT3 e = MT3 (e -> Bool)
 
 instance Menge (MT3 Char) where
   leereMenge = MT3 (\_ -> False)
-  allMenge = MT3 (\_ -> True )
+  allMenge   = MT3 (\_ -> True )
   istMenge = \_ -> True
   vereinige = vereinigeMT3
-  schneide = schneideMT3
-  zieheab = zieheabMT3
+  schneide  =  schneideMT3
+  zieheab   =   zieheabMT3
   istTeilmenge = istTeilmengeMT3
   zeige = zeigeMT3
 
 instance Menge (MT3 Int) where
   leereMenge = MT3 (\_ -> False)
-  allMenge = MT3 (\_ -> True )
+  allMenge   = MT3 (\_ -> True )
   istMenge = \_ -> True
   vereinige = vereinigeMT3
-  schneide = schneideMT3
-  zieheab = zieheabMT3
+  schneide  =  schneideMT3
+  zieheab   =   zieheabMT3
   istTeilmenge = istTeilmengeMT3
   zeige = zeigeMT3
 
