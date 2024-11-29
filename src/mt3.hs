@@ -47,7 +47,7 @@ istTeilmengeMT3 m1 (MT3 f) =
     let elems1 = toListMT3 m1
     in all f elems1
 
-zeigeMT3 m = "{" ++ (formatElems . toListMT3) m ++ "}"
+zeigeMT3 m = "{" ++ (Menge.formatElems . toListMT3) m ++ "}"
 
 
 -- Wandle einen MT3 in einer Liste vom inneren Typ e um.
