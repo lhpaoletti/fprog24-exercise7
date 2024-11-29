@@ -3,6 +3,7 @@
 module MT1 where
 import Menge
 import Defaultable
+import Landeshauptstadt
 
 
 newtype MT1 e = MT1 [e] 
@@ -25,6 +26,16 @@ instance Menge (MT1 Int) where
     vereinige = vereinigeMT1
     schneide  =  schneideMT1
     zieheab   =   zieheabMT1
+    istTeilmenge = istTeilmengeMT1
+    zeige = zeigeMT1
+
+instance Menge (MT1 Landeshauptstadt) where
+    leereMenge = MT1 []
+    allMenge = MT1 defaultValue
+    istMenge = istMengeMT1
+    vereinige = vereinigeMT1
+    schneide = schneideMT1
+    zieheab = zieheabMT1
     istTeilmenge = istTeilmengeMT1
     zeige = zeigeMT1
 
