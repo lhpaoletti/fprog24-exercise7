@@ -1,6 +1,7 @@
 -- Landeshauptstadt Typ Datei
 -- Datum: 29.11.
 module Landeshauptstadt where
+import Defaultable
 
 
 data Landeshauptstadt = B | E | G | I | K | L | P | S | W
@@ -20,3 +21,8 @@ newtype Staedtepaar2 = SP2 (Landeshauptstadt, Landeshauptstadt)
 --  die charakteristische Funktionen sind
 data Staedtepaar3 = SP3 ((Landeshauptstadt, Landeshauptstadt) -> Bool)
 data Staedtepaar4 = SP4 (Landeshauptstadt -> Landeshauptstadt -> Bool)
+
+
+
+instance Defaultable Landeshauptstadt where
+    defaultValue = [minBound .. maxBound]
