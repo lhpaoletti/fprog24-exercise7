@@ -44,10 +44,10 @@ zieheabMT3(MT3 f1) (MT3 f2) = MT3 $
 
 istTeilmengeMT3 :: (Eq e, Defaultable e) => MT3 e -> MT3 e -> Bool
 istTeilmengeMT3 m1 (MT3 f) =
-    let elems1 = toListMT3 m1
+    let elems1 = toList m1
     in all f elems1
 
-zeigeMT3 m = "{" ++ (Menge.formatElems . toListMT3) m ++ "}"
+zeigeMT3 m = "{" ++ (Menge.formatElems . toList) m ++ "}"
 
 
 -- Wandle einen MT3 in einer Liste vom inneren Typ e um.
@@ -55,5 +55,5 @@ zeigeMT3 m = "{" ++ (Menge.formatElems . toListMT3) m ++ "}"
 --  dass der Typ e eine defaultValue Funktion besitzt.
 -- Haette man nicht diese Beschaenkung, muesste man Bound nutzen. Es ist aber sehr
 --  gross bei Int und Char.
-toListMT3 :: (Defaultable e) => MT3 e -> [e]
-toListMT3 (MT3 f) = filter f defaultValue
+toList :: (Defaultable e) => MT3 e -> [e]
+toList (MT3 f) = filter f defaultValue
