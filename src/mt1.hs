@@ -10,34 +10,34 @@ newtype MT1 e = MT1 [e]
 
 
 instance Menge (MT1 Char) where
-    leereMenge = MT1 []
-    allMenge   = MT1 defaultValue
-    istMenge = istMengeMT1
-    vereinige = vereinigeMT1
-    schneide  =  schneideMT1
-    zieheab   =   zieheabMT1
+    leereMenge   = MT1 []
+    allMenge     = MT1 defaultValue
+    istMenge     = istMengeMT1
+    vereinige    = vereinigeMT1
+    schneide     = schneideMT1
+    zieheab      = zieheabMT1
     istTeilmenge = istTeilmengeMT1
-    zeige = zeigeMT1
+    zeige        = zeigeMT1
 
 instance Menge (MT1 Int) where
-    leereMenge = MT1 []
-    allMenge   = MT1 defaultValue
-    istMenge = istMengeMT1
-    vereinige = vereinigeMT1
-    schneide  =  schneideMT1
-    zieheab   =   zieheabMT1
+    leereMenge   = MT1 []
+    allMenge     = MT1 defaultValue
+    istMenge     = istMengeMT1
+    vereinige    = vereinigeMT1
+    schneide     = schneideMT1
+    zieheab      = zieheabMT1
     istTeilmenge = istTeilmengeMT1
-    zeige = zeigeMT1
+    zeige        = zeigeMT1
 
 instance Menge (MT1 Landeshauptstadt) where
-    leereMenge = MT1 []
-    allMenge = MT1 defaultValue
-    istMenge = istMengeMT1
-    vereinige = vereinigeMT1
-    schneide = schneideMT1
-    zieheab = zieheabMT1
+    leereMenge   = MT1 []
+    allMenge     = MT1 defaultValue
+    istMenge     = istMengeMT1
+    vereinige    = vereinigeMT1
+    schneide     = schneideMT1
+    zieheab      = zieheabMT1
     istTeilmenge = istTeilmengeMT1
-    zeige = zeigeMT1
+    zeige        = zeigeMT1
 
 
 
