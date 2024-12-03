@@ -12,9 +12,7 @@ data IstPartnerstadtVon1 = IPV1 (MT1 Staedtepaar)
 
 instance Menge (MT1 Staedtepaar) where
     leereMenge = MT1 []
-    allMenge =
-        let cities = [minBound..maxBound] :: [Landeshauptstadt]
-        in cross (MT1 cities) (MT1 cities)
+    allMenge = cross allMenge allMenge
     istMenge = istMengeMT1
     vereinige = vereinigeMT1
     schneide = schneideMT1
