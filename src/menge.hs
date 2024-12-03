@@ -9,52 +9,46 @@ type MengeAlsZeichenreihe = String
 
 class Menge m where
     leereMenge :: m
-    allMenge :: m
+    allMenge   :: m
     istMenge :: m -> Bool
     vereinige :: m -> m -> m
-    schneide :: m -> m -> m
-    zieheab :: m -> m -> m
-    komplementiere :: m -> m
-    sindGleich :: m -> m -> Bool
-    sindUngleich :: m -> m -> Bool
+    schneide  :: m -> m -> m
+    zieheab   :: m -> m -> m
     istTeilmenge :: m -> m -> Bool
-    istObermenge :: m -> m -> Bool
-    istEchteTeilmenge :: m -> m -> Bool
-    istEchteObermenge :: m -> m -> Bool
-    sindElementeFremd :: m -> m -> Bool
-    sindQuerUeberlappend :: m -> m -> Bool
-    istKeinGueltigerMengenwert :: Fehlermeldung -> m
-    nichtImplementierbar :: Fehlermeldung -> m
     zeige :: m -> MengeAlsZeichenreihe
 
-
-    -- PROTOIMPLEMENTIERUNGEN --
-
+    komplementiere :: m -> m
     komplementiere = zieheab allMenge
 
-    -- Zwei Mengen sind gleich, wenn sie Teilmengen voneinander sind
+    sindGleich :: m -> m -> Bool
     sindGleich m1 m2 = istTeilmenge m1 m2 && istTeilmenge m2 m1
+
+    sindUngleich :: m -> m -> Bool
     sindUngleich m1 = not . sindGleich m1
 
-    -- Wenn A (echte) Obermenge von B ist, ist dann B (echte) Teilmenge von A
-    istObermenge m1 m2 = istTeilmenge m2 m1
-    istEchteObermenge m1 m2 = istEchteTeilmenge m2 m1 
+    istObermenge :: m -> m -> Bool
+    istObermenge = flip istTeilmenge
 
-    -- Eine Menge ist echte Teilmenge einer Anderen, wenn sie Teilmenge aber nicht 
-    --  gleich ist
-    istEchteTeilmenge m1 m2 = istTeilmenge m1 m2 && not (sindGleich m1 m2)
+    istEchteTeilmenge :: m -> m -> Bool
+    istEchteTeilmenge m1 m2 =
+        istTeilmenge m1 m2 && not (sindGleich m1 m2)
 
-    -- Zwei Mengen sind elementefremd, wenn ihrer Schnitt die Leeremenge ist
+    istEchteObermenge :: m -> m -> Bool
+    istEchteObermenge = flip istEchteTeilmenge
+
+    sindElementeFremd :: m -> m -> Bool
     sindElementeFremd m1 = sindGleich leereMenge . schneide m1
 
-    -- Zwei Mengen sind quer-ueberlappend, wenn sie...
-    --   ... mindestens ein Element gemeinsam haben
-    --   ... jeweils keine Teilmenge voneinander sind
+    sindQuerUeberlappend :: m -> m -> Bool
     sindQuerUeberlappend m1 m2 =
         not (sindElementeFremd m1 m2)
         && not (istTeilmenge m1 m2)
         && not (istTeilmenge m2 m1)
+
+    istKeinGueltigerMengenwert :: Fehlermeldung -> m
     istKeinGueltigerMengenwert = error
+
+    nichtImplementierbar :: Fehlermeldung -> m
     nichtImplementierbar = error
 
 

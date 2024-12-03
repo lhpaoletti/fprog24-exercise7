@@ -5,19 +5,20 @@ import Menge
 
 
 class Menge m => Relation m where
-    istLeereRelation :: m -> Bool
-    istAllRelation :: m -> Bool
-    istLinkstotal :: m -> Bool
+    istLinkstotal  :: m -> Bool
     istRechtstotal :: m -> Bool
-    istReflexiv :: m -> Bool
+    istReflexiv    :: m -> Bool
     istSymmetrisch :: m -> Bool
-    istTransitiv :: m -> Bool
-    istQuasiOrdnung :: m -> Bool
-    istAequivalenzrelation :: m -> Bool
+    istTransitiv   :: m -> Bool
 
-
-    -- PROTOIMPLEMENTIERUNGEN --
+    istLeereRelation :: m -> Bool
     istLeereRelation = sindGleich leereMenge
+
+    istAllRelation :: m -> Bool
     istAllRelation = sindGleich allMenge
+
+    istQuasiOrdnung :: m -> Bool
     istQuasiOrdnung m = istReflexiv m && istTransitiv m
+
+    istAequivalenzrelation :: m -> Bool
     istAequivalenzrelation m = istQuasiOrdnung m && istSymmetrisch m
