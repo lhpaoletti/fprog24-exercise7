@@ -18,5 +18,6 @@ class Menge m => Relation m where
 
     -- PROTOIMPLEMENTIERUNGEN --
     istLeereRelation = sindGleich leereMenge
+    istAllRelation = sindGleich allMenge
     istQuasiOrdnung m = istReflexiv m && istTransitiv m
     istAequivalenzrelation m = istQuasiOrdnung m && istSymmetrisch m
