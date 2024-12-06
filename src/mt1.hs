@@ -39,23 +39,27 @@ instance (Eq e, Defaultable e, Show e) => Menge (MT1 e) where
 
 
 instance Relation (MT1 Staedtepaar) where
-    istLinkstotal (MT1 pairs) =
+    istLinkstotal m@(MT1 pairs)
+        | (not . istMenge) m = Menge.fehlermeldung
         -- Bilde eine Menge mit den linken Landeshauptstaedten, und vergleiche sie mit der Allmenge
-        sindGleich allMenge . MT1 . nub . map (fst) $ pairs
+        | otherwise = sindGleich allMenge . MT1 . nub . map (fst) $ pairs
 
-    istRechtstotal (MT1 pairs) =
+    istRechtstotal m@(MT1 pairs)
+        | (not . istMenge) m = Menge.fehlermeldung
         -- Bilde eine Menge mit den rechten Landeshauptstaedten, und vergleiche sie mit der Allmenge
-        sindGleich allMenge . MT1 . nub . map (snd) $ pairs
+        | otherwise = sindGleich allMenge . MT1 . nub . map (snd) $ pairs
 
-    istReflexiv (MT1 pairs) =
+    istReflexiv m@(MT1 pairs)
+        | (not . istMenge) m = Menge.fehlermeldung
         -- Bilde eine Menge mit den reflexiven Landeshauptstaedten,
         --  und vergleiche sie mit der Allmenge
-        sindGleich allMenge . MT1 $ reflexiveCities
-        where
-            reflexiveCities = [fst pair | pair <- pairs, fst pair == snd pair]
+        | otherwise = sindGleich allMenge . MT1 $ reflexiveCities
+        where reflexiveCities = [fst pair | pair <- pairs, fst pair == snd pair]
 
 
-    istSymmetrisch r = istSymmetrisch' r r
+    istSymmetrisch r
+        | (not . istMenge) r = Menge.fehlermeldung
+        | otherwise          = istSymmetrisch' r r
         where
             -- Pruefe Symmetrie von m gegen die urspruengliche Menge.
             istSymmetrisch' :: MT1 Staedtepaar -> MT1 Staedtepaar -> Bool
@@ -65,7 +69,9 @@ instance Relation (MT1 Staedtepaar) where
                 (l', l) `elem` orig && (istSymmetrisch' (MT1 orig) . MT1) ps
 
 
-    istTransitiv r = istTransitiv' r r
+    istTransitiv r
+        | (not . istMenge) r = Menge.fehlermeldung
+        | otherwise          = istTransitiv' r r
         where
             -- Pruefe Transitivitaet von m gegen die urspruengliche Menge.
             istTransitiv' :: MT1 Staedtepaar -> MT1 Staedtepaar -> Bool
