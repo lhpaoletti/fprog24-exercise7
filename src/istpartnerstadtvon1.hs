@@ -74,3 +74,11 @@ instance Relation (MT1 Staedtepaar) where
                     l''s    = map (snd) l'_l''s
                     -- Alle zu pruefende Transitivitaeten aus l
                     l_l''s  = [(l, l'') | l'' <- l''s]
+
+
+instance Relation IstPartnerstadtVon1 where
+    istLinkstotal  (IPV1 r) = istLinkstotal  r
+    istRechtstotal (IPV1 r) = istRechtstotal r
+    istReflexiv    (IPV1 r) = istReflexiv    r
+    istSymmetrisch (IPV1 r) = istSymmetrisch r
+    istTransitiv   (IPV1 r) = istTransitiv   r
