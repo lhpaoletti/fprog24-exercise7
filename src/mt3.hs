@@ -3,6 +3,8 @@
 module MT3 where
 import Menge
 import Defaultable
+import Landeshauptstadt
+import Relation
 
 
 data MT3 e = MT3 (e -> Bool)
@@ -27,6 +29,39 @@ instance (Eq e, Defaultable e, Show e) => Menge (MT3 e) where
         in all f elems1
 
     zeige m = "{" ++ (Menge.formatElems . toList) m ++ "}"
+
+
+
+instance Relation (MT3 Staedtepaar) where
+    istLinkstotal m@(MT3 f) =
+        -- Wenn fuer alle Landeshauptstaedte l, hat die Menge mindestens eine Relation (l R _)
+        all (`elem` leftCities) defaultValue
+        where leftCities = map (fst) . toList $ m
+
+    istRechtstotal m@(MT3 f) =
+        -- Wenn fuer alle Landeshauptstaedte l, hat die Menge mindestens eine Relation (_ R l)
+        all (`elem` rightCities) defaultValue
+        where rightCities = map (snd) . toList $ m
+
+    istReflexiv m@(MT3 f) =
+        -- Wenn fuer alle reflexive Staedtepaare, hat die Menge auch so ein Paar
+        all (`elem` reflexiveRelations) . takeReflexivePairs $ defaultValue
+        where reflexiveRelations = takeReflexivePairs . toList $ m
+              takeReflexivePairs = filter (\(l, l') -> l == l')
+
+    istSymmetrisch m =
+        -- Wenn fuer alle symmetrische Staedtepaare von der Menge, sind sie auch Elemente der Menge
+        all (`elem` relations) symmetricRelations
+        where relations = toList m
+              symmetricRelations = map (\(l, l') -> (l', l)) relations
+
+    istTransitiv m =
+        -- Wenn fuer alle Paare der Menge {(x, y) | xRa & aRy} der Schritt (=> xRy) vorgegeben ist
+        all (`elem` relations) l_l''s
+        where relations   = toList m
+              rightCities = map (snd) relations
+              -- Nimm alle Paare der Menge {(x, y) | xRa & aRy}
+              l_l''s = [(l, l'') | (l, l'1) <- relations, (l'2, l'') <- relations, l'1 == l'2]
 
 
 
