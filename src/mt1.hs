@@ -3,82 +3,36 @@
 module MT1 where
 import Menge
 import Defaultable
-import Landeshauptstadt
 
 
 newtype MT1 e = MT1 [e] 
 
 
-instance Menge (MT1 Char) where
-    leereMenge   = MT1 []
-    allMenge     = MT1 defaultValue
-    istMenge     = istMengeMT1
-    vereinige    = vereinigeMT1
-    schneide     = schneideMT1
-    zieheab      = zieheabMT1
-    istTeilmenge = istTeilmengeMT1
-    zeige        = zeigeMT1
+instance (Eq e, Defaultable e, Show e) => Menge (MT1 e) where
+    leereMenge = MT1 []
+    allMenge   = MT1 defaultValue
 
-instance Menge (MT1 Int) where
-    leereMenge   = MT1 []
-    allMenge     = MT1 defaultValue
-    istMenge     = istMengeMT1
-    vereinige    = vereinigeMT1
-    schneide     = schneideMT1
-    zieheab      = zieheabMT1
-    istTeilmenge = istTeilmengeMT1
-    zeige        = zeigeMT1
+    istMenge (MT1     []) = True
+    istMenge (MT1 (e:es)) =
+        all (/= e) es && (istMenge . MT1) es
 
-instance Menge (MT1 Landeshauptstadt) where
-    leereMenge   = MT1 []
-    allMenge     = MT1 defaultValue
-    istMenge     = istMengeMT1
-    vereinige    = vereinigeMT1
-    schneide     = schneideMT1
-    zieheab      = zieheabMT1
-    istTeilmenge = istTeilmengeMT1
-    zeige        = zeigeMT1
+    vereinige m1@(MT1 list1) m2@(MT1 list2)
+          | istMenge m1 && istMenge m2 = MT1 . nub $ list1 ++ list2
+          | otherwise = istKeinGueltigerMengenwert "Argument muss Menge sein (keine Duplikate)"
 
-instance Menge (MT1 Staedtepaar) where
-    leereMenge   = MT1 []
-    allMenge     = MT1 defaultValue
-    istMenge     = istMengeMT1
-    vereinige    = vereinigeMT1
-    schneide     = schneideMT1
-    zieheab      = zieheabMT1
-    istTeilmenge = istTeilmengeMT1
-    zeige        = zeigeMT1
+    schneide m1@(MT1 list1) m2@(MT1 list2)
+          | istMenge m1 && istMenge m2 = MT1 $ [e | e <- list1, e `elem` list2]
+          | otherwise = istKeinGueltigerMengenwert "Argument muss Menge sein (keine Duplikate)"
 
+    zieheab m1@(MT1 list1) m2@(MT1 list2)
+          | istMenge m1 && istMenge m2 = MT1 $ [e | e <- list1, e `notElem` list2]
+          | otherwise = istKeinGueltigerMengenwert "Argument muss Menge sein (keine Duplikate)"
 
+    istTeilmenge m1@(MT1 list1) m2@(MT1 list2)
+          | istMenge m1 && istMenge m2 = all (`elem` list2) list1
+          | otherwise = error "Argument muss Menge sein (keine Duplikate)"
 
-istMengeMT1 :: Eq e => MT1 e -> Bool
-istMengeMT1 (MT1     []) = True
-istMengeMT1 (MT1 (e:es)) =
-    all (/= e) es && (istMengeMT1 . MT1) es
-
-vereinigeMT1 :: Eq e => MT1 e -> MT1 e -> MT1 e
-vereinigeMT1 m1@(MT1 list1) m2@(MT1 list2)
-      | istMengeMT1 m1 && istMengeMT1 m2 = MT1 . nub $ list1 ++ list2
-      | otherwise                        = Menge.fehlermeldung
-
-schneideMT1 :: Eq e => MT1 e -> MT1 e -> MT1 e
-schneideMT1 m1@(MT1 list1) m2@(MT1 list2)
-      | istMengeMT1 m1 && istMengeMT1 m2 = MT1 $ [e | e <- list1, e `elem` list2]
-      | otherwise                        = Menge.fehlermeldung
-
-zieheabMT1 :: Eq e => MT1 e -> MT1 e -> MT1 e
-zieheabMT1 m1@(MT1 list1) m2@(MT1 list2)
-      | istMengeMT1 m1 && istMengeMT1 m2 = MT1 $ [e | e <- list1, e `notElem` list2]
-      | otherwise                        = Menge.fehlermeldung
-
-
-istTeilmengeMT1 :: Eq e => MT1 e -> MT1 e -> Bool
-istTeilmengeMT1 m1@(MT1 list1) m2@(MT1 list2)
-      | istMengeMT1 m1 && istMengeMT1 m2 = all (`elem` list2) list1
-      | otherwise                        = Menge.fehlermeldung
-
-zeigeMT1 :: Show e => MT1 e -> MengeAlsZeichenreihe
-zeigeMT1 (MT1 elems) = "{" ++ Menge.formatElems elems ++ "}"
+    zeige (MT1 elems) = "{" ++ Menge.formatElems elems ++ "}"
 
 
 

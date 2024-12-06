@@ -3,72 +3,31 @@
 module MT3 where
 import Menge
 import Defaultable
-import Landeshauptstadt
 
 
 data MT3 e = MT3 (e -> Bool)
 
 
-instance Menge (MT3 Char) where
-    leereMenge   = MT3 (\_ -> False)
-    allMenge     = MT3 (\_ -> True )
-    istMenge     = \_ -> True
-    vereinige    = vereinigeMT3
-    schneide     = schneideMT3
-    zieheab      = zieheabMT3
-    istTeilmenge = istTeilmengeMT3
-    zeige        = zeigeMT3
+instance (Eq e, Defaultable e, Show e) => Menge (MT3 e) where
+    leereMenge = MT3 (\_ -> False)
+    allMenge   = MT3 (\_ -> True )
+    istMenge   = \_ -> True
 
-instance Menge (MT3 Int) where
-    leereMenge   = MT3 (\_ -> False)
-    allMenge     = MT3 (\_ -> True )
-    istMenge     = \_ -> True
-    vereinige    = vereinigeMT3
-    schneide     = schneideMT3
-    zieheab      = zieheabMT3
-    istTeilmenge = istTeilmengeMT3
-    zeige        = zeigeMT3
+    vereinige (MT3 f1) (MT3 f2) = MT3 $
+        \elem -> f1 elem || f2 elem
 
-instance Menge (MT3 Landeshauptstadt) where
-    leereMenge   = MT3 (\_ -> False)
-    allMenge     = MT3 (\_ -> True )
-    istMenge     = \_ -> True
-    vereinige    = vereinigeMT3
-    schneide     = schneideMT3
-    zieheab      = zieheabMT3
-    istTeilmenge = istTeilmengeMT3
-    zeige        = zeigeMT3
+    schneide (MT3 f1) (MT3 f2) = MT3 $
+        \elem -> f1 elem && f2 elem
 
-instance Menge (MT3 Staedtepaar) where
-    leereMenge   = MT3 (\_ -> False)
-    allMenge     = MT3 (\_ ->  True)
-    istMenge     = \_ -> True
-    vereinige    = vereinigeMT3
-    schneide     = schneideMT3
-    zieheab      = zieheabMT3
-    istTeilmenge = istTeilmengeMT3
-    zeige        = zeigeMT3
+    zieheab (MT3 f1) (MT3 f2) = MT3 $
+        \elem -> f1 elem && (not . f2) elem
 
+    istTeilmenge m1 (MT3 f) =
+        let elems1 = toList m1
+        in all f elems1
 
+    zeige m = "{" ++ (Menge.formatElems . toList) m ++ "}"
 
-vereinigeMT3 :: Eq e => MT3 e -> MT3 e -> MT3 e
-vereinigeMT3 (MT3 f1) (MT3 f2) = MT3 $
-    \elem -> f1 elem || f2 elem
-
-schneideMT3 :: Eq e => MT3 e -> MT3 e -> MT3 e
-schneideMT3 (MT3 f1) (MT3 f2) = MT3 $
-    \elem -> f1 elem && f2 elem
-
-zieheabMT3 :: Eq e => MT3 e -> MT3 e -> MT3 e
-zieheabMT3(MT3 f1) (MT3 f2) = MT3 $
-    \elem -> f1 elem && (not . f2) elem
-
-istTeilmengeMT3 :: (Eq e, Defaultable e) => MT3 e -> MT3 e -> Bool
-istTeilmengeMT3 m1 (MT3 f) =
-    let elems1 = toList m1
-    in all f elems1
-
-zeigeMT3 m = "{" ++ (Menge.formatElems . toList) m ++ "}"
 
 
 -- Wandle einen MT3 in einer Liste vom inneren Typ e um.
