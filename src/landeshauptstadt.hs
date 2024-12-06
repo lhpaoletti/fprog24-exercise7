@@ -4,6 +4,7 @@ module Landeshauptstadt where
 import Defaultable
 import Menge
 import MT1
+import MT3
 
 
 data Landeshauptstadt = B | E | G | I | K | L | P | S | W
@@ -38,6 +39,16 @@ instance Menge (MT1 Landeshauptstadt) where
     zieheab      = zieheabMT1
     istTeilmenge = istTeilmengeMT1
     zeige        = zeigeMT1
+
+instance Menge (MT3 Landeshauptstadt) where
+    leereMenge   = MT3 (\_ -> False)
+    allMenge     = MT3 (\_ -> True )
+    istMenge     = \_ -> True
+    vereinige    = vereinigeMT3
+    schneide     = schneideMT3
+    zieheab      = zieheabMT3
+    istTeilmenge = istTeilmengeMT3
+    zeige        = zeigeMT3
 
 
 
