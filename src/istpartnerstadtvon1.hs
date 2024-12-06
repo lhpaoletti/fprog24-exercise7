@@ -5,6 +5,7 @@ import Landeshauptstadt
 import Menge
 import Relation
 import MT1
+import Defaultable
 
 
 data IstPartnerstadtVon1 = IPV1 (MT1 Staedtepaar)
@@ -12,7 +13,7 @@ data IstPartnerstadtVon1 = IPV1 (MT1 Staedtepaar)
 
 instance Menge (MT1 Staedtepaar) where
     leereMenge = MT1 []
-    allMenge = cross allMenge allMenge
+    allMenge = MT1 defaultValue
     istMenge = istMengeMT1
     vereinige = vereinigeMT1
     schneide = schneideMT1

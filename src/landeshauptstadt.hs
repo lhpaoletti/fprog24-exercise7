@@ -50,6 +50,9 @@ instance Menge (MT3 Landeshauptstadt) where
     istTeilmenge = istTeilmengeMT3
     zeige        = zeigeMT3
 
+instance Defaultable Staedtepaar where
+    defaultValue = [(a, b) | a <- defaultValue, b <- defaultValue]
+
 
 
 main = do
