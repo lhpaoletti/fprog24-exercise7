@@ -18,3 +18,10 @@ instance Menge IstPartnerstadtVon3 where
     zieheab (IPV3 m1) (IPV3 m2) = IPV3 $ zieheab m1 m2
     istTeilmenge (IPV3 m1) (IPV3 m2) = istTeilmenge m1 m2
     zeige (IPV3 m) = zeige m
+
+instance Relation IstPartnerstadtVon3 where
+    istLinkstotal  (IPV3 r) = istLinkstotal  r
+    istRechtstotal (IPV3 r) = istRechtstotal r
+    istReflexiv    (IPV3 r) = istReflexiv    r
+    istSymmetrisch (IPV3 r) = istSymmetrisch r
+    istTransitiv   (IPV3 r) = istTransitiv   r
