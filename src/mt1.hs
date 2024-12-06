@@ -61,12 +61,6 @@ zeigeMT1 (MT1 elems) = "{" ++ Menge.formatElems elems ++ "}"
 
 
 
--- Kreuze zwei Mengen zusammen.
-cross :: (Menge (MT1 a), Menge (MT1 b)) => MT1 a -> MT1 b -> MT1 (a, b)
-cross m1@(MT1 list1) m2@(MT1 list2)
-    | istMenge m1 && istMenge m2 = MT1 [(a, b) | a <- list1, b <- list2]
-    | otherwise                  = Menge.fehlermeldung
-
 -- Entferne Duplikate einer Liste.
 nub :: Eq a => [a] -> [a]
 nub     [] = []
